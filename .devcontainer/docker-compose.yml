@@ -1,0 +1,11 @@
+services:
+  devcontainer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: grove_vision_ai_v2_dev
+    volumes:
+      - ..:/workspace:cached
+    # 確保容器保持運行
+    tty: true
+    stdin_open: true

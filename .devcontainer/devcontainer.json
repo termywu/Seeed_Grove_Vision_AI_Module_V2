@@ -1,0 +1,35 @@
+{
+  "name": "Grove Vision AI V2 Dev",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "devcontainer",
+  "workspaceFolder": "/workspace",
+
+  // 專案打開後自動執行一次完整編譯
+  "postCreateCommand": "make -C EPII_CM55M_APP_S clean all",
+
+  // VS Code 端的客製化
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-vscode.cpptools",        // C/C++ IntelliSense & Debugger
+        "ms-vscode.makefile-tools"
+      ],
+      "settings": {
+        "C_Cpp.default.compilerPath": "/opt/arm-toolchain/bin/arm-none-eabi-gcc",
+        "makefile.buildDirectory": "${workspaceFolder}/EPII_CM55M_APP_S"
+      }
+    }
+  },
+
+  // 空間不大、不需要長時間常駐服務，暫不轉發 port
+  "forwardPorts": [],
+
+  // 加入 Dev Container 官方共通工具 (feature)
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {},  // git, curl, bash 補完 等
+    "ghcr.io/devcontainers/features/git:1": {}
+  },
+
+  // 使用非 root 使用者執行開發工作
+  "remoteUser": "vscode"
+}

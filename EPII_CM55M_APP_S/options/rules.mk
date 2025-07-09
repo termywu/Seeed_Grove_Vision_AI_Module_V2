@@ -77,7 +77,7 @@ else
 override PATH :=$(GNU_TOOLPATH):$(PATH)
 endif
 
-.PHONY : all build dump dasm bin hex size clean boardclean distclean run gui cfg opt info spopt infodirs infosrcs infoobjs help scripts env_check
+.PHONY : all build dump dasm bin hex img size clean boardclean distclean run gui cfg opt info spopt infodirs infosrcs infoobjs help scripts env_check
 
 all : $(APPL_FULL_NAME).$(ELF_FILENAME)
 
@@ -91,6 +91,13 @@ bin : $(APPL_FULL_NAME).bin
 
 hex : $(APPL_FULL_NAME).hex
 
+img : $(APPL_FULL_NAME).$(ELF_FILENAME)
+	@$(ECHO) "Generating IMG file from ELF"
+	$(Q)cd ../we2_image_gen_local/ && \
+	cp ../EPII_CM55M_APP_S/$(APPL_FULL_NAME).$(ELF_FILENAME) input_case1_secboot/ && \
+	./we2_local_image_gen project_case1_blp_wlcsp.json && \
+	cp ./output_case1_sec_wlcsp/output.img ../EPII_CM55M_APP_S/bin/
+
 env_check: cfg scripts opt info
 
 help :
@@ -98,6 +105,7 @@ help :
 	@$(ECHO) '  all         - Build example'
 	@$(ECHO) '  bin         - Build and Generate binary for example'
 	@$(ECHO) '  hex         - Build and Generate Intel Hex File for example'
+	@$(ECHO) '  img         - Build and Generate IMG file for example'
 	@$(ECHO) '  build       - Clean first then compile example'
 	@$(ECHO) '  dump        - Generate dump information for example'
 	@$(ECHO) '  dasm        - Disassemble object file'
